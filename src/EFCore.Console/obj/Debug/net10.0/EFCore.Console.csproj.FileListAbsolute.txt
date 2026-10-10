@@ -1,0 +1,14 @@
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/bin/Debug/net10.0/EFCore.Console
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/bin/Debug/net10.0/EFCore.Console.deps.json
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/bin/Debug/net10.0/EFCore.Console.runtimeconfig.json
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/bin/Debug/net10.0/EFCore.Console.dll
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/bin/Debug/net10.0/EFCore.Console.pdb
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/obj/Debug/net10.0/EFCore.Console.GeneratedMSBuildEditorConfig.editorconfig
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/obj/Debug/net10.0/EFCore.Console.AssemblyInfoInputs.cache
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/obj/Debug/net10.0/EFCore.Console.AssemblyInfo.cs
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/obj/Debug/net10.0/EFCore.Console.csproj.CoreCompileInputs.cache
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/obj/Debug/net10.0/EFCore.Console.dll
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/obj/Debug/net10.0/refint/EFCore.Console.dll
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/obj/Debug/net10.0/EFCore.Console.pdb
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/obj/Debug/net10.0/EFCore.Console.genruntimeconfig.cache
+/home/adriano/repos/dotnet/EFCore/src/EFCore.Console/obj/Debug/net10.0/ref/EFCore.Console.dll

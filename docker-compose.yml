@@ -1,0 +1,21 @@
+services:
+  sqlserver:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    container_name: "sqlserver"
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserverdata:/var/opt/mssql
+    networks:
+      - ef-core
+
+networks:
+  ef-core:
+    driver: bridge
+
+volumes:
+  # default dir on Ubuntu: /var/lib/docker/volumes
+  sqlserverdata:
