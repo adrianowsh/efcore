@@ -19,8 +19,8 @@ public sealed class ApplicationContext : DbContext
 	{
 		string connectionString = "Data Source=localhost;Initial Catalog=EfCore;User Id=sa;Password=Yk2jdii32!@#;TrustServerCertificate=True;pooling=True;";
 		optionsBuilder
-		//.EnableSensitiveDataLogging()
-		//.LogTo(System.Console.WriteLine, LogLevel.Information)
+		.EnableSensitiveDataLogging()
+		.LogTo(System.Console.WriteLine, LogLevel.Information)
 		.UseSqlServer(connectionString);
 	}
 	protected override void OnModelCreating(ModelBuilder modelBuilder)

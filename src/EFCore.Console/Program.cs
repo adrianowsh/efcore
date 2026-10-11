@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using EFCore.Console.Domain.Departments;
 using Microsoft.EntityFrameworkCore;
 
 Console.ForegroundColor = ConsoleColor.Green;
@@ -9,16 +10,18 @@ Console.ForegroundColor = ConsoleColor.White;
 //EnsureceratedAndDeleted();
 //HelthCheckDatabase();
 //ManageStateConnection();
+SqlInjection();
+
 
 //warmup
 new EFCore.Console.Infrastrucutures.Data.ApplicationContext(
 	new Microsoft.EntityFrameworkCore.DbContextOptionsBuilder<EFCore.Console.Infrastrucutures.Data.ApplicationContext>()
 	.Options).Departments.AsNoTracking().Any();
 
-int _count = 0;
-ManageStateConnection(false, _count);
-_count = 0;
-ManageStateConnection(true, _count);
+// int _count = 0;
+// ManageStateConnection(false, _count);
+// _count = 0;
+// ManageStateConnection(true, _count);
 
 
 static void EnsureceratedAndDeleted()
@@ -91,4 +94,29 @@ static void ExevuteSql()
 
 	//Terceira opcao
 	db.Database.ExecuteSqlInterpolated($"UPDATE Departments SET Description = '{description}' WHERE Id = 1");
+}
+
+static void SqlInjection()
+{
+	using var db = new EFCore.Console.Infrastrucutures.Data.ApplicationContext(
+		new Microsoft.EntityFrameworkCore.DbContextOptionsBuilder<EFCore.Console.Infrastrucutures.Data.ApplicationContext>()
+		.Options);
+	db.Database.EnsureDeleted();
+	db.Database.EnsureCreated();
+
+	db.Departments.AddRange(
+		 Department.Create("Department 1", true),
+		 Department.Create("Department 2", true)
+	);
+
+	db.SaveChanges();
+	Console.WriteLine("Departments added successfully.");
+
+	var descricao = "Departamento hackeado' or 1='1";
+	db.Database.ExecuteSqlRaw($"UPDATE Departments SET Description = 'Teste' WHERE Description = '{descricao}'");
+
+	foreach (var department in db.Departments.AsNoTracking())
+	{
+		Console.WriteLine($"Department Id: {department.Id}, Description: {department.Description}");
+	}
 }
