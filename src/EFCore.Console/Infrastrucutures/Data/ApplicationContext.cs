@@ -21,10 +21,11 @@ public sealed class ApplicationContext : DbContext
 		optionsBuilder
 		.EnableSensitiveDataLogging()
 		.LogTo(System.Console.WriteLine, LogLevel.Information)
+		//.UseLazyLoadingProxies()
 		.UseSqlServer(connectionString);
 	}
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		base.OnModelCreating(modelBuilder);
+		// modelBuilder.Entity<Department>().HasQueryFilter(d => !d.Deleted);
 	}
 }
