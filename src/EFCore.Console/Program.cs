@@ -20,8 +20,10 @@ Console.ForegroundColor = ConsoleColor.White;
 //QueryParameter();
 //QueryIInterpolated();
 //QueryWithTAG();
-QueryOneToManyManyToOne();
+//QueryOneToManyManyToOne();
+//SplitQuery();
 
+CreateStoreProcedure();
 
 //warmup
 // new EFCore.Console.Infrastrucutures.Data.ApplicationContext(
@@ -378,6 +380,83 @@ static void QueryOneToManyManyToOne()
 		Console.WriteLine(@$"Employee Name: {employee.Name}");
 		Console.WriteLine(@$"Department Description: {employee.Department.Description}");
 	}
+}
+
+static void SplitQuery()
+{
+	using var db = new EFCore.Console.Infrastrucutures.Data.ApplicationContext(
+		new Microsoft.EntityFrameworkCore.DbContextOptionsBuilder<EFCore.Console.Infrastrucutures.Data.ApplicationContext>()
+		.Options);
+
+	SetupDatabase(db);
+
+	var departments = db
+			.Departments
+			.Include(d => d.Employees)
+			.AsNoTracking()
+			//.AsSplitQuery()
+			.Where(d => !d.Deleted)
+			.ToList();
+
+	foreach (var department in departments)
+	{
+		Console.WriteLine(@$"Department Description: {department.Description}");
+		foreach (var employee in department.Employees)
+		{
+			Console.WriteLine(@$"Employee Name: {employee.Name}");
+		}
+	}
+}
+
+static void CreateStoreProcedure()
+{
+	using var db = new EFCore.Console.Infrastrucutures.Data.ApplicationContext(
+		new Microsoft.EntityFrameworkCore.DbContextOptionsBuilder<EFCore.Console.Infrastrucutures.Data.ApplicationContext>()
+		.Options);
+
+	SetupDatabase(db);
+
+	var createProcedureSql = @"
+		CREATE OR ALTER PROCEDURE CreateDepartments
+		  @id VARCHAR(250),
+		  @Description NVARCHAR(MAX),
+		  @Active BIT
+		AS
+		BEGIN
+			INSERT INTO Departments (Id,Description, Active, Deleted)
+			VALUES (@id, @Description, @Active, 0)
+		END
+	";
+
+	db.Database.ExecuteSqlRaw(createProcedureSql);
+
+	InserirDepartamento($"dep_{Guid.CreateVersion7()}", "Department via procedure", false, db);
+
+	var departments = db
+	.Departments
+	.AsNoTracking()
+	.ToList();
+
+	foreach (var department in departments)
+	{
+		Console.WriteLine(@$"Department Description: {department.Description}");
+		foreach (var employee in department.Employees)
+		{
+			Console.WriteLine(@$"Employee Name: {employee.Name}");
+		}
+	}
+}
+
+static void InserirDepartamento(
+	string id,
+	string description,
+	bool active,
+	EFCore.Console.Infrastrucutures.Data.ApplicationContext db)
+{
+	var insertDepartmentSql = @"
+		EXEC CreateDepartments @id = {0}, @Description = {1}, @Active = {2}";
+
+	db.Database.ExecuteSqlRaw(insertDepartmentSql, id, description, active);
 }
 
 static void SetupDatabase(EFCore.Console.Infrastrucutures.Data.ApplicationContext? db = default)
